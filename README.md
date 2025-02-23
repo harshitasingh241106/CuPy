@@ -6,10 +6,26 @@ CuPy is an open-source library that accelerates numerical computations by utiliz
 ---
 
 ## Installation & Setup
-To install CuPy with pip:
+To download the compatible version of CuPy on your device, and install it; Open the terminal and enter:
 ```bash
 pip install cupy-cuda12x
 ```
+To install CuPy using anaconda :
+```bash
+conda install -c conda-forge cupy
+```
+To verify the installation in jupyter notebook, run the following code : 
+```bash
+import cupy as cp 
+print(cp.__version__)
+```
+If the installation is successful, it will print the CuPy version.
+Handling installation issues - If CuPy fails to detect your GPU, ensure you have NVIDIA drivers and CUDA Toolkit installed.
+If using Google Colab/ Jupyter notebook, install CuPy with:
+```bash
+!pip install cupy-cuda12x
+```
+
 Ensure that you have an NVIDIA GPU with CUDA installed. You can check your CUDA version with:
 ```bash
 nvcc --version
