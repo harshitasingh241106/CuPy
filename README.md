@@ -55,46 +55,110 @@ CuPy performs matrix operations like multiplication, inversion, and eigenvalue d
 ---
 
 ## Code Examples
-### 1. Basic Matrix Multiplication using CuPy
+### 1. Basic Array operations
 ```python
 import cupy as cp
 
-# Create large random matrices
+# Creating arrays
+x_gpu = cp.array([1, 2, 3, 4, 5])
+y_gpu = cp.array([5, 4, 3, 2, 1])
+
+# Element-wise addition
+z_gpu = x_gpu + y_gpu
+
+print(z_gpu)
+```
+![Basic Array](https://github.com/harshitasingh241106/CuPy/blob/main/Screenshot%202025-02-23%20215428.png)
+
+### 2. Comparing NumPy vs CuPy Performance 
+CuPy is significantly faster for large-scale operations
+
+```python
+import numpy as np
+import cupy as cp
+import time
+
+size = 10**7  # Large array size
+
+# NumPy (CPU)
+x_cpu = np.random.rand(size)
+start = time.time()
+np_result = np.sqrt(x_cpu)  # Compute square root
+end = time.time()
+print(f"NumPy Time: {end - start:.5f} seconds")
+
+# CuPy (GPU)
+x_gpu = cp.random.rand(size)
+start = time.time()
+cp_result = cp.sqrt(x_gpu)  # Compute square root
+cp.cuda.Device(0).synchronize()  # Ensure GPU computation finishes
+end = time.time()
+print(f"CuPy Time: {end - start:.5f} seconds")
+```
+![Comparision](https://github.com/harshitasingh241106/CuPy/blob/main/Screenshot%202025-02-23%20215428.png)
+
+### 3. Matrix Multiplication
+GPU-accelerated matrix multiplication is much faster than CPU-based NumPy.
+```python
+import cupy as cp
+
+# Creating random matrices
 A = cp.random.rand(1000, 1000)
 B = cp.random.rand(1000, 1000)
 
-# Perform matrix multiplication on GPU
+# GPU matrix multiplication
 C = cp.dot(A, B)
 
-print(C)
+print(C.shape)
 ```
-### 2. Using CuPy with Custom CUDA Kernel
+![Basic Array](https://github.com/harshitasingh241106/CuPy/blob/main/Screenshot%202025-02-23%20215501.png)
+
+### 4. Moving Data Between NumPy and CuPy
+
+Use cp.asnumpy() to move data to CPU and cp.asarray() to move it to GPU.
+```python
+import cupy as cp
+import numpy as np
+
+# Create CuPy array
+x_gpu = cp.array([1, 2, 3, 4, 5])
+
+# Convert to NumPy (CPU)
+x_cpu = cp.asnumpy(x_gpu)
+
+# Convert back to CuPy (GPU)
+x_gpu_again = cp.asarray(x_cpu)
+
+print(type(x_cpu))
+print(type(x_gpu_again))
+
+```
+![Basic Array](https://github.com/harshitasingh241106/CuPy/blob/main/Screenshot%202025-02-23%20215537.png)
+
+### 5. Using CuPy for Element-Wise Custom Kernels (CUDA Acceleration)
+
 ```python
 import cupy as cp
 
-# Define a simple CUDA kernel
-kernel = cp.RawKernel(r'''
-extern "C" __global__
-void add_arrays(const float* x1, const float* x2, float* out, int size) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < size) {
-        out[idx] = x1[idx] + x2[idx];
-    }
-}
-''', 'add_arrays')
+# Custom CUDA kernel
+ker = cp.ElementwiseKernel(
+    'float32 x',      # Input argument(s)
+    'float32 y',      # Output argument(s)
+    'y = x * x;',     # Operation (square each element)
+    'square_kernel'   # Kernel name
+)
 
-size = 1024
-x1 = cp.random.rand(size).astype(cp.float32)
-x2 = cp.random.rand(size).astype(cp.float32)
-out = cp.zeros_like(x1)
+# Create CuPy array
+x_gpu = cp.array([1, 2, 3, 4, 5], dtype=cp.float32)
 
-# Launch kernel
-block_size = 128
-grid_size = (size + block_size - 1) // block_size
-kernel((grid_size,), (block_size,), (x1, x2, out, size))
+# Apply custom kernel
+y_gpu = ker(x_gpu)
 
-print(out)
+print(y_gpu)
+
+
 ```
+![Basic Array](https://github.com/harshitasingh241106/CuPy/blob/main/Screenshot%202025-02-23%20215617.png)
 
 ---
 
