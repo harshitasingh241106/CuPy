@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        nav {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+    </nav>
+    <div class="container">
+        <h1>Welcome to My Blog</h1>
+        <p>This website provides insights and tutorials on GPU acceleration, CuPy, and performance optimization.</p>
+    </div>
+</body>
+</html>
+
+<!-- Blog Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - CuPy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+    </nav>
+    <div class="container">
+        <h1>CuPy - GPU Accelerated NumPy for CUDA</h1>
+        <h2>Introduction</h2>
+        <p>CuPy is an open-source library that accelerates numerical computations by utilizing GPU processing with CUDA. It is designed to work seamlessly with NumPy, allowing users to run matrix operations and scientific computations much faster than on a CPU...</p>
+        <hr>
+        <h2>Installation & Setup</h2>
+        <p>To install CuPy, use:</p>
+        <pre><code class="language-bash">pip install cupy-cuda12x</code></pre>
+        <p>To verify the installation, run:</p>
+        <pre><code class="language-bash">import cupy as cp
+print(cp.__version__)</code></pre>
+        <hr>
+        <h2>Key Features & Explanation</h2>
+        <h3>1. NumPy and SciPy Compatibility</h3>
+        <p>CuPy is highly compatible with NumPy and SciPy, meaning you can easily transition to GPU acceleration by replacing <code>numpy</code> with <code>cupy</code>.</p>
+        <h3>2. GPU Accelerated with CUDA</h3>
+        <p>CuPy leverages CUDA to accelerate computations using the GPU, making operations significantly faster for large datasets.</p>
+        <h3>3. Efficient Memory Management</h3>
+        <p>CuPy optimizes GPU memory allocation with memory pools, reducing CPU-GPU synchronization overhead.</p>
+        <h3>4. Custom CUDA Kernels</h3>
+        <p>Users can write custom CUDA kernels for high-performance computing.</p>
+        <hr>
+        <h2>Code Examples</h2>
+        <h3>1. Basic Array Operations</h3>
+        <pre><code class="language-python">import cupy as cp
+x_gpu = cp.array([1, 2, 3, 4, 5])
+y_gpu = cp.array([5, 4, 3, 2, 1])
+z_gpu = x_gpu + y_gpu
+print(z_gpu)</code></pre>
+        <h3>2. Comparing NumPy vs CuPy Performance</h3>
+        <pre><code class="language-python">import numpy as np
+import cupy as cp
+times = {}
+size = 10**7
+x_cpu = np.random.rand(size)
+start = time.time()
+numpy_result = np.sqrt(x_cpu)
+times['numpy'] = time.time() - start
+x_gpu = cp.random.rand(size)
+start = time.time()
+cupy_result = cp.sqrt(x_gpu)
+times['cupy'] = time.time() - start
+print(times)</code></pre>
+        <h3>3. Matrix Multiplication</h3>
+        <pre><code class="language-python">A = cp.random.rand(1000, 1000)
+B = cp.random.rand(1000, 1000)
+C = cp.dot(A, B)
+print(C.shape)</code></pre>
+        <hr>
+        <h2>Use Cases & Applications</h2>
+        <h3>1. Accelerating AI & Deep Learning</h3>
+        <p>CuPy enhances machine learning models by expediting matrix operations.</p>
+        <h3>2. Scientific Simulations</h3>
+        <p>Researchers use CuPy to run large-scale physics and chemistry simulations faster.</p>
+        <h3>3. High-Performance Computing</h3>
+        <p>It is widely used in real-time financial analytics and other big data applications.</p>
+        <h3>4. Image Processing</h3>
+        <p>Used in medical imaging and computer vision applications.</p>
+        <hr>
+        <h2>Conclusion</h2>
+        <p>CuPy is an essential tool for leveraging GPU acceleration in numerical computations, making it ideal for AI, simulations, and large-scale data processing.</p>
+        <h2>References & Further Reading</h2>
+        <ul>
+            <li><a href="https://docs.cupy.dev/en/stable/">CuPy Official Docs</a></li>
+            <li><a href="https://developer.nvidia.com/cuda-toolkit">CUDA Toolkit</a></li>
+        </ul>
+    </div>
+</body>
+</html>
